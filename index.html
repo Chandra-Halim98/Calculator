@@ -10,10 +10,10 @@
   <body>
     <div class="container">
       <form>
-        <input type="text" id="showNum" name="showNum" />
+        <input type="text" id="showNum" name="showNum" disabled />
       </form>
       <div class="column">
-        <button>C</button>
+        <button id="ok" onclick="console.log('siap')">C</button>
         <button>+/-</button>
         <button>%</button>
         <button>/</button>
@@ -29,11 +29,9 @@
         <button>2</button>
         <button>3</button>
         <button>+</button>
-        <div class="col-end">
-          <button>0</button>
-          <button>,</button>
-          <button>=</button>
-        </div>
+        <button>0</button>
+        <button>,</button>
+        <button class="extra-width">=</button>
       </div>
     </div>
   </body>
