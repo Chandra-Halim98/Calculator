@@ -13,26 +13,101 @@
         <input type="text" id="showNum" name="showNum" disabled />
       </form>
       <div class="column">
-        <button id="ok" onclick="console.log('siap')">C</button>
-        <button>+/-</button>
-        <button>%</button>
-        <button>/</button>
-        <button>7</button>
-        <button>8</button>
-        <button>9</button>
-        <button>X</button>
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <button>-</button>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>+</button>
-        <button>0</button>
-        <button>,</button>
-        <button class="extra-width">=</button>
+        <button id="ok" onclick="clear()">C</button>
+        <button onclick="operation('+/-')">+/-</button>
+        <button onclick="operation('%')">%</button>
+        <button onclick="operation('÷')">/</button>
+        <button onclick="appendNum(7)">7</button>
+        <button onclick="appendNum(8)">8</button>
+        <button onclick="appendNum(9)">9</button>
+        <button onclick="operation('×')">X</button>
+        <button onclick="appendNum(4)">4</button>
+        <button onclick="appendNum(5)">5</button>
+        <button onclick="appendNum(6)">6</button>
+        <button onclick="operation('-')">-</button>
+        <button onclick="appendNum(1)">1</button>
+        <button onclick="appendNum(2)">2</button>
+        <button onclick="appendNum(3)">3</button>
+        <button onclick="operation('+')">+</button>
+        <button onclick="appendNum(0)">0</button>
+        <button onclick="appendNum('.')">,</button>
+        <button class="extra-width" onclick="calculate()">=</button>
       </div>
     </div>
+    <script>
+      const showNum = document.getElementById("showNum");
+      let currentOperand = "";
+      let prevOperand = "";
+      let operator = null;
+
+      function appendNum(num) {
+        if (num === "." && currentOperand.includes(".")) return;
+        currentOperand = currentOperand.toString() + num.toString();
+        updateDisplay();
+      }
+
+      function operation(op) {
+        switch (op) {
+          case "+/-":
+            currentOperand = currentOperand * -1;
+            break;
+          case "%":
+            currentOperand = currentOperand / 100;
+            break;
+          default:
+            chooseOperator(op);
+            break;
+        }
+        updateDisplay();
+      }
+
+      function chooseOperator(op) {
+        if (currentOperand === "") return;
+        if (prevOperand !== "") {
+          calculate();
+        }
+        operator = op;
+        prevOperand = currentOperand;
+        currentOperand = "";
+      }
+
+      function calculate() {
+        let result;
+        const prev = parseFloat(prevOperand);
+        const current = parseFloat(currentOperand);
+        if (isNaN(prev) || isNaN(current)) return;
+        switch (operator) {
+          case "+":
+            result = prev + current;
+            break;
+          case "-":
+            result = prev - current;
+            break;
+          case "×":
+            result = prev * current;
+            break;
+          case "÷":
+            result = prev / current;
+            break;
+          default:
+            return;
+        }
+        currentOperand = result;
+        operator = null;
+        prevOperand = "";
+        updateDisplay();
+      }
+
+      function clear() {
+        currentOperand = "";
+        prevOperand = "";
+        operator = null;
+        updateDisplay();
+      }
+
+      function updateDisplay() {
+        showNum.value = currentOperand;
+      }
+    </script>
   </body>
 </html>
